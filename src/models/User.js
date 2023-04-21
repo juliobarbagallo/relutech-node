@@ -35,7 +35,8 @@ userSchema.statics.encryptPassword = async (password) => {
     return hashedPassword
 }
 
-userSchema.static.comparePassword = async (password, receivedPassword) => {
+userSchema.statics.comparePassword = async (password, receivedPassword) => {
+    console.log("comparePassword:", password, receivedPassword)
     return await bcrypt.compare(password, receivedPassword)
 }
 
