@@ -1,10 +1,18 @@
 import Asset from '../models/Asset'
+import User from '../models/User';
+
 
 export const createAsset = async (req, res) => {
-    const {brand, model, type} = req.body
-    const newAsset = new Asset({brand, model, type});
+    const {brand, model, type, assignedTo} = req.body;
+    const user = await User.findOne({ email: assignedTo });
+    if (!user) {
+        return res.status(400).json({ message: 'User not found.' });
+    }
+    const newAsset = new Asset({brand, model, type, assignedTo: user.email});
     const assetSaved = await newAsset.save()
-    res.status(201).json(assetSaved)
+    user.assets.push(newAsset);
+    await user.save();
+    res.status(201).json(assetSaved);
 }
 
 export const getAssets = async (req, res) => {
