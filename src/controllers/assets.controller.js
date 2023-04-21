@@ -1,5 +1,10 @@
-export const createAsset = (req, res) => {
+import Asset from '../models/Asset'
 
+export const createAsset = async (req, res) => {
+    const {brand, model, type} = req.body
+    const newAsset = new Asset({brand, model, type});
+    const assetSaved = await newAsset.save()
+    res.status(201).json(assetSaved)
 }
 
 export const getAssets = (req, res) => {
