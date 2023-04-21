@@ -27,7 +27,11 @@ const userSchema = new Schema({
     assets: [{ 
         type: Schema.Types.ObjectId,
         ref: 'Asset'
-      }]
+      }],
+      licenses: [{
+        type: Schema.Types.ObjectId,
+        ref: 'License'
+    }]
 }, {
     timestamps: true,
     versionKey: false
