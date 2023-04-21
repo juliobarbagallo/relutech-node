@@ -3,6 +3,7 @@ import morgan from 'morgan';
 
 import assetsRoutes from './routes/assets.routes'
 import authRoutes from './routes/auth.routes'
+import userRoutes from './routes/user.routes'
 
 import { createRoles } from './libs/initialSetUp';
 
@@ -19,5 +20,6 @@ app.get('/', (req, res) => {
 
 app.use('/api/v1/assets', assetsRoutes)
 app.use('/api/v1/users', authRoutes)
+app.use('/api/users', userRoutes)
 
 export default app;
