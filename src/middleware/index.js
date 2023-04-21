@@ -1,3 +1,3 @@
 import {verifyToken, isAdmin} from './authJwt'
-
-export {verifyToken, isAdmin}
+import { checkRolesExisted } from "./verifySignUp";
+export {verifyToken, isAdmin, checkRolesExisted}

@@ -23,7 +23,11 @@ const userSchema = new Schema({
     roles: [{ 
         type: Schema.Types.ObjectId,
         ref: 'Role'
-    }]
+    }],
+    assets: [{ 
+        type: Schema.Types.ObjectId,
+        ref: 'Asset'
+      }]
 }, {
     timestamps: true,
     versionKey: false
