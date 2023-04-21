@@ -7,10 +7,12 @@ const app = express()
 
 app.use(morgan('dev'));
 
+app.use(express.json())
+
 app.get('/', (req, res) => {
     res.json("foo!")
 })
 
-app.use('/assets', assetsRoutes)
+app.use('/api/v1/assets', assetsRoutes)
 
 export default app;
