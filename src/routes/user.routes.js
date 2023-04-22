@@ -3,8 +3,12 @@ const router = Router()
 import * as userCtrl from "../controllers/user.controller";
 import { verifyToken, isAdmin, checkRolesExisted } from "../middleware";
 
-router.post('/', [verifyToken, isAdmin, checkRolesExisted], userCtrl.createUser)
+
 
 router.get('/', userCtrl.getUsers)
+
+router.get('/:userId' ,userCtrl.getUserById)
+
+router.delete('/:userId',[verifyToken, isAdmin], userCtrl.deleteUserById)
 
 export default router
