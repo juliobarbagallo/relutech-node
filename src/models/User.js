@@ -1,5 +1,7 @@
 import { Schema, model } from "mongoose";
 import bcrypt from 'bcryptjs'
+import { Asset } from "./Asset";
+import { License } from "./License";
 
 
 const userSchema = new Schema({
@@ -36,6 +38,20 @@ const userSchema = new Schema({
     timestamps: true,
     versionKey: false
 });
+
+userSchema.pre('remove', async function(next) {
+    console.log("trying on cascade delete")
+    try {
+        
+      // remove associated assets
+      await Asset.updateMany({ assignedTo: this._id }, { assignedTo: null });
+      // remove associated licenses
+      await License.deleteMany({ assignedTo: this._id });
+      next();
+    } catch (error) {
+      next(error);
+    }
+  });
 
 userSchema.statics.encryptPassword = async (password) => {    
     const salt = await bcrypt.genSalt(10)

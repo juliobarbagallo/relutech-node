@@ -2,12 +2,12 @@ import License from '../models/License';
 import User from '../models/User';
 
 export const createLicense = async (req, res) => {
-  const { id, software, assignedTo } = req.body;
+  const { software, assignedTo } = req.body;
   const user = await User.findOne({ email: assignedTo });
   if (!user) {
     return res.status(400).json({ message: 'User not found.' });
   }
-  const newLicense = new License({ id, software, assignedTo: user.email });
+  const newLicense = new License({ software, assignedTo: user.email });
   const licenseSaved = await newLicense.save();
   user.licenses.push(newLicense);
   await user.save();
@@ -25,13 +25,9 @@ export const getLicenseById = async (req, res) => {
 };
 
 export const updateLicenseById = async (req, res) => {
-  const updatedLicense = await License.findByIdAndUpdate(
-    req.params.licenseId,
-    req.body,
-    {
-      new: true,
-    }
-  );
+  const updatedLicense = await License.findByIdAndUpdate(req.params.licenseId, req.body, { new: true });
+
+  const user = await User.findOneAndUpdate({ email: req.body.assignedTo }, { $push: { licenses: updatedLicense._id } }, { new: true }).populate('assets').populate('licenses');
   res.status(200).json(updatedLicense);
 };
 
